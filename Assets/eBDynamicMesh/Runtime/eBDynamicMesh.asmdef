@@ -1,0 +1,16 @@
+{
+    "name": "eBDynamicMesh",
+    "rootNamespace": "",
+    "references": [
+        "GUID:a2eb181def0ea48b5b53b7b79675ebb2"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
