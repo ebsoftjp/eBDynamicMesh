@@ -6,7 +6,7 @@ namespace eBDynamicMesh
 {
     public partial class Factory
     {
-        public static Mesh CreateCylinder(string name, int maxX, int maxY, float lenY, float lenX)
+        public static Mesh CreateCylinder(string name, int maxX, int maxY, float lenY, float lenX, bool topBottom = true)
         {
             var vertices = new List<Vector3>();
             var normals = new List<Vector3>();
@@ -14,56 +14,75 @@ namespace eBDynamicMesh
             var colors = new List<Color>();
             var triangles = new List<int>();
 
-            var indexes = new int[maxY][];
+            var indexes = new int[maxY + 1][];
+            var color = Color.white;
 
             // loop
-            for (int y = 0; y < maxY; y++)
+            for (int y = 0; y < maxY + 1; y++)
             {
                 // center
-                var fy = (float)Mathf.Clamp(y - 1, 0, maxY - 3) / (maxY - 3);
-                var vy = fy * lenY;
-                var isEdge = y == 0 || y == maxY - 1;
-                var maxX2 = isEdge ? 1 : maxX;
-                //maxX2 = maxX;
+                var fy = (float)y / maxY;
+                var vy = (fy - 0.5f) * lenY;
 
-                indexes[y] = new int[maxX2];
-                for (int x = 0; x < maxX2; x++)
+                indexes[y] = new int[maxX + 1];
+                for (int x = 0; x < maxX + 1; x++)
                 {
                     indexes[y][x] = vertices.Count;
-                    var r2 = x * 360 / maxX * Mathf.Deg2Rad;
+                    var r2 = Mathf.Deg2Rad * x * 360 / maxX;
                     var v = new Vector3(Mathf.Cos(r2) * lenX, vy, Mathf.Sin(r2) * lenX);
                     vertices.Add(v);
-                    normals.Add((isEdge ? v : v - Vector3.up * vy).normalized);
-                    uv.Add(new Vector2((float)x / (float)(maxX - 1), fy));
-                    colors.Add(Color.white);
+                    normals.Add((v - Vector3.up * vy).normalized);
+                    uv.Add(new(x / (float)maxX, fy));
+                    colors.Add(color);
                 }
             }
 
-            for (int y = 0; y < indexes.Length - 1; y++)
+            for (int y = 0; y < maxY; y++)
             {
                 var y2 = y + 1;
-                var b1 = indexes[y].Length > 1;
-                var b2 = indexes[y2].Length > 1;
                 for (int x = 0; x < maxX; x++)
                 {
-                    var x2 = (x + 1) % maxX;
-                    var n1 = indexes[y][b1 ? x : 0];
-                    var n2 = indexes[y][b1 ? x2 : 0];
-                    var n3 = indexes[y2][b2 ? x : 0];
-                    var n4 = indexes[y2][b2 ? x2 : 0];
-                    if (y > 0)
+                    var x2 = x + 1;
+                    var n1 = indexes[y][x];
+                    var n2 = indexes[y][x2];
+                    var n3 = indexes[y2][x];
+                    var n4 = indexes[y2][x2];
+                    triangles.Add(n1);
+                    triangles.Add(n3);
+                    triangles.Add(n2);
+                    triangles.Add(n2);
+                    triangles.Add(n3);
+                    triangles.Add(n4);
+                }
+            }
+
+            void add(float vy, int offset, Vector3 normal, int n3, int n4)
+            {
+                var n1 = vertices.Count;
+                vertices.Add(new(0, vy, 0));
+                normals.Add(normal);
+                uv.Add(new());
+                colors.Add(color);
+                for (int x = 0; x < maxX + 1; x++)
+                {
+                    var n2 = vertices.Count;
+                    vertices.Add(vertices[x + offset]);
+                    normals.Add(normal);
+                    uv.Add(new());
+                    colors.Add(color);
+                    if (x > 0)
                     {
                         triangles.Add(n1);
-                        triangles.Add(n3);
-                        triangles.Add(n2);
-                    }
-                    if (y < maxY - 2)
-                    {
-                        triangles.Add(n2);
-                        triangles.Add(n3);
-                        triangles.Add(n4);
+                        triangles.Add(n2 + n3);
+                        triangles.Add(n2 + n4);
                     }
                 }
+            }
+
+            if (topBottom)
+            {
+                add((0 - 0.5f) * lenY, 0, Vector3.down, -1, 0);
+                add((0 + 0.5f) * lenY, (maxX + 1) * maxY, Vector3.up, 0, -1);
             }
 
             return Add(name, new()

@@ -1,7 +1,9 @@
 {
-    "name": "eBDynamicMesh",
+    "name": "eBDynamicMesh.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:946e94f797385401bac8a146203e82a0"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
