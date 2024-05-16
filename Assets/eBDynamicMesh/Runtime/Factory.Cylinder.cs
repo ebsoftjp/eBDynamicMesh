@@ -84,6 +84,10 @@ namespace eBDynamicMesh
                 add((0 - 0.5f) * lenY, 0, Vector3.down, -1, 0);
                 add((0 + 0.5f) * lenY, (maxX + 1) * maxY, Vector3.up, 0, -1);
             }
+            else
+            {
+                AddBackTriangles(vertices, normals, uv, colors, triangles);
+            }
 
             return Add(name, new()
             {

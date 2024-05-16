@@ -34,6 +34,31 @@ namespace eBDynamicMesh
             return Instance.dic[name];
         }
 
+        public static void AddBackTriangles(List<Vector3> vertices, List<Vector3> normals, List<Vector2> uv, List<Color> colors, List<int> triangles)
+        {
+            var n1 = vertices.Count;
+            Debug.Assert(n1 == normals.Count, $"normals is different: {n1} != {normals.Count}");
+            Debug.Assert(n1 == uv.Count, $"uv is different: {n1} != {uv.Count}");
+            Debug.Assert(n1 == colors.Count, $"colors is different: {n1} != {colors.Count}");
+            for (int i = 0; i < n1; i++)
+            {
+                vertices.Add(vertices[i]);
+                normals.Add(normals[i] * -1);
+                uv.Add(uv[i]);
+                colors.Add(colors[i]);
+            }
+
+            var n2 = triangles.Count;
+            var triangles2 = new int[n2];
+            for (int i = 0; i < n2; i += 3)
+            {
+                triangles2[i] = triangles[i] + n1;
+                triangles2[i + 1] = triangles[i + 2] + n1;
+                triangles2[i + 2] = triangles[i + 1] + n1;
+            }
+            triangles.InsertRange(0, triangles2);
+        }
+
         public static GameObject GetWithGameObject(string name, Material material)
         {
             var obj = new GameObject(name);
