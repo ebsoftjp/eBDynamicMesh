@@ -12,8 +12,8 @@ namespace eBDynamicMesh
             {
                 Vector2.zero,
                 Vector2.up,
-                Vector2.one,
                 Vector2.right,
+                Vector2.one,
             };
 
             var vertices = new List<Vector3>();
