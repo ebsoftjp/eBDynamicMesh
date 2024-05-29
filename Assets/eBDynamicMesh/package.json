@@ -1,9 +1,9 @@
 {
   "name": "jp.ebsoft.eb-dynamic-mesh",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "displayName": "eB Dynamic Mesh",
   "description": "This is an asset for easily handling dynamic mesh.",
-  "unity": "6000.0",
+  "unity": "2022.3",
   "documentationUrl": "https://ebsoft.jp/eb-dynamic-mesh/",
   "author": {
     "name": "eB Soft",
