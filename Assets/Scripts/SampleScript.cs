@@ -14,6 +14,7 @@ public class SampleScript : MonoBehaviour
             "Fan",
             "Cylinder",
             "Line",
+            "Sphere2",
         };
 
         eBDynamicMesh.Factory.CreatePlane(names[0], new Vector3(1, 2, 0));
@@ -21,6 +22,7 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.CreateFan(names[2], new() { new() });
         eBDynamicMesh.Factory.CreateCylinder(names[3], 10, 10, 2, 0.5f);
         eBDynamicMesh.Factory.CreateLine(names[4], new() { new() });
+        eBDynamicMesh.Factory.CreateSphere(names[5], 100, 100, 0.5f, new(0.5f, 1, 0.1f));
 
         for (int i = 0; i <names.Length; i++)
         {

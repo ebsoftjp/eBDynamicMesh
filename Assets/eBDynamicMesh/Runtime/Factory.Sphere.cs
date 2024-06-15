@@ -8,6 +8,11 @@ namespace eBDynamicMesh
     {
         public static Mesh CreateSphere(string name, int maxX, int maxY, float radius)
         {
+            return CreateSphere(name, maxX, maxY, radius, Vector3.one);
+        }
+
+        public static Mesh CreateSphere(string name, int maxX, int maxY, float radius, Vector3 sc)
+        {
             var vertices = new List<Vector3>();
             var normals = new List<Vector3>();
             var uv = new List<Vector2>();
@@ -34,8 +39,10 @@ namespace eBDynamicMesh
                     indexes[y][x] = vertices.Count;
                     var r2 = x * 360 / maxX * Mathf.Deg2Rad;
                     var v = new Vector3(Mathf.Cos(r2) * l1, vy, Mathf.Sin(r2) * l1);
-                    vertices.Add(v);
-                    normals.Add(v.normalized);
+                    vertices.Add(Vector3.Scale(v, sc));
+                    //normals.Add(v.normalized);
+                    //normals.Add(Vector3.Scale(v, sc).normalized);
+                    normals.Add(Vector3.Scale(v, new(sc.y * sc.z, sc.z * sc.x, sc.x * sc.y)).normalized);
                     uv.Add(new Vector2((float)x / (float)(maxX - 1), fy));
                     colors.Add(Color.white);
                 }
