@@ -43,7 +43,7 @@ namespace eBDynamicMesh
                     //normals.Add(v.normalized);
                     //normals.Add(Vector3.Scale(v, sc).normalized);
                     normals.Add(Vector3.Scale(v, new(sc.y * sc.z, sc.z * sc.x, sc.x * sc.y)).normalized);
-                    uv.Add(new Vector2((float)x / (float)(maxX - 1), fy));
+                    uv.Add(new Vector2((float)x / (float)(maxX - 1), 1 - fy));
                     colors.Add(Color.white);
                 }
             }

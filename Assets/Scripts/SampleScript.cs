@@ -24,11 +24,14 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.CreateLine(names[4], new() { new() });
         eBDynamicMesh.Factory.CreateSphere(names[5], 100, 100, 0.5f, new(0.5f, 1, 0.1f));
 
-        for (int i = 0; i <names.Length; i++)
+        var maxX = 3;
+        for (int i = 0; i < names.Length; i++)
         {
+            var x = i % maxX;
+            var y = i / maxX;
             var obj = eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
             obj.transform.SetParent(transform);
-            obj.transform.localPosition = Vector3.right * (float)(i * 2 - (names.Length - 1)) * 0.5f;
+            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 3f - 1, 0);
         }
     }
 }

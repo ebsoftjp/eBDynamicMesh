@@ -61,7 +61,7 @@ namespace eBDynamicMesh
 
                 for (int i = 0; i < vertices.Count; i++)
                 {
-                    normals.Add(Vector3.forward);
+                    normals.Add(Vector3.back);
                     uv.Add(vertices[i].normalized);
                     colors.Add(Color.white);
                 }

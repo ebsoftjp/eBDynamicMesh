@@ -33,7 +33,7 @@ namespace eBDynamicMesh
                 uv.Add(uvTable[i]);
                 normals.Add(len.x == 0
                     ? Vector3.right
-                    : (len.y == 0 ? Vector3.up : Vector3.forward));
+                    : (len.y == 0 ? Vector3.up : Vector3.back));
                 colors.Add(Color.white);
             }
 
