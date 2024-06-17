@@ -30,7 +30,7 @@ namespace eBDynamicMesh
                 var fy = (float)y / (float)(maxY - 1);
                 var vy = Mathf.Cos(r1) * radius;
                 var l1 = Mathf.Sin(r1) * radius;
-                var maxX2 = (y == 0 || y == maxY - 1) ? 1 : maxX;
+                var maxX2 = (y == 0 || y == maxY - 1) ? 1 : maxX + 1;
                 //maxX2 = maxX;
 
                 indexes[y] = new int[maxX2];
@@ -43,7 +43,7 @@ namespace eBDynamicMesh
                     //normals.Add(v.normalized);
                     //normals.Add(Vector3.Scale(v, sc).normalized);
                     normals.Add(Vector3.Scale(v, new(sc.y * sc.z, sc.z * sc.x, sc.x * sc.y)).normalized);
-                    uv.Add(new Vector2((float)x / (float)(maxX - 1), 1 - fy));
+                    uv.Add(new Vector2((float)x / (float)maxX, 1 - fy));
                     colors.Add(Color.white);
                 }
             }
@@ -55,7 +55,7 @@ namespace eBDynamicMesh
                 var b2 = indexes[y2].Length > 1;
                 for (int x = 0; x < maxX; x++)
                 {
-                    var x2 = (x + 1) % maxX;
+                    var x2 = x + 1;
                     var n1 = indexes[y][b1 ? x : 0];
                     var n2 = indexes[y][b1 ? x2 : 0];
                     var n3 = indexes[y2][b2 ? x : 0];

@@ -39,23 +39,23 @@ namespace eBDynamicMesh
                     var r1 = data.radius * y / data.maxY;
                     var m = data.m * Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(0, 0, r1), Vector3.one);
                     var c = m.MultiplyPoint3x4(new Vector3(data.l1, 0, 0));
-                    var y1 = vcount + y * data.maxX;
-                    var y2 = vcount + ((y + 1) % maxY2) * data.maxX;
+                    var y1 = vcount + y * (data.maxX + 1);
+                    var y2 = vcount + ((y + 1) % maxY2) * (data.maxX + 1);
                     var isAddTriangles = y < data.maxY;
                     var fy = (float)y / (float)(data.maxY - 1);
 
-                    for (int x = 0; x < data.maxX; x++)
+                    for (int x = 0; x < data.maxX + 1; x++)
                     {
                         var r2 = (x * 360 / data.maxX) * Mathf.Deg2Rad;
                         var v = m.MultiplyPoint3x4(new Vector3(data.l1 + Mathf.Cos(r2) * data.l2, 0, Mathf.Sin(r2) * data.l2));
                         vertices.Add(v);
                         normals.Add((v - c).normalized);
-                        uv.Add(new Vector2((float)x / (float)(data.maxX - 1), fy));
+                        uv.Add(new Vector2((float)x / (float)data.maxX, fy));
                         colors.Add(Color.white);
 
-                        if (isAddTriangles)
+                        if (isAddTriangles && x < data.maxX)
                         {
-                            var x2 = (x + 1) % data.maxX;
+                            var x2 = x + 1;
                             triangles.Add(y1 + x);
                             triangles.Add(y2 + x);
                             triangles.Add(y1 + x2);
