@@ -17,6 +17,7 @@ public class SampleScript : MonoBehaviour
             "Sphere2",
             "Capsule",
             "Capsule2",
+            "SkCircle",
         };
 
         eBDynamicMesh.Factory.CreatePlane(names[0], new Vector3(1, 2, 0));
@@ -27,13 +28,16 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.CreateSphere(names[5], 100, 100, 0.5f, new(0.5f, 1, 0.1f));
         eBDynamicMesh.Factory.CreateCapsule(names[6], 20, 20, 20, 0.5f, 2f);
         eBDynamicMesh.Factory.CreateCapsule(names[7], 20, 20, 20, 0.5f, 2f, new(0.5f, 1, 0.1f));
-
+        eBDynamicMesh.Factory.CreateSkinnedCircle(names[8], new() { new() });
+        
         var maxX = 3;
         for (int i = 0; i < names.Length; i++)
         {
             var x = i % maxX;
             var y = i / maxX;
-            var obj = eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
+            var obj = names[i].StartsWith("Sk")
+                ? eBDynamicMesh.Factory.GetWithSkinnedObject(names[i], material, 6)
+                : eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
             obj.transform.SetParent(transform);
             obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 3f - 1, 0);
         }

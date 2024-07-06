@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace eBDynamicMesh
@@ -74,6 +75,39 @@ namespace eBDynamicMesh
                 // add mesh filter
                 var meshFilter = obj.AddComponent<MeshFilter>();
                 meshFilter.mesh = Get(name);
+            }
+
+            return obj;
+        }
+
+        public static GameObject GetWithSkinnedObject(string name, Material material, int count)
+        {
+            var obj = new GameObject(name);
+            if (obj.GetComponent<SkinnedMeshRenderer>() == null)
+            {
+                // add mesh renderer
+                var meshRenderer = obj.AddComponent<SkinnedMeshRenderer>();
+                meshRenderer.sharedMesh = Get(name);
+                meshRenderer.rootBone = obj.transform;
+                //meshRenderer.bones = new Transform[] { obj.transform };
+                meshRenderer.bones = Enumerable
+                    .Repeat(0, count)
+                    .Select((_, n) =>
+                    {
+                        var r = (n * 360 / count) * Mathf.Deg2Rad;
+                        var m = Matrix4x4.identity;
+                        var l2 = 0.5f;
+                        var pos = new Vector3(Mathf.Cos(r) * l2, Mathf.Sin(r) * l2, 0);
+                        //var pos = Vector3.zero;
+
+                        var t = new GameObject($"{n}").transform;
+                        t.SetParent(obj.transform);
+                        t.SetLocalPositionAndRotation(pos, Quaternion.identity);
+                        t.localScale = Vector3.one;
+                        return t;
+                    })
+                    .ToArray();
+                meshRenderer.material = material;
             }
 
             return obj;
