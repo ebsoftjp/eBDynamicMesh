@@ -18,6 +18,7 @@ public class SampleScript : MonoBehaviour
             "Capsule",
             "Capsule2",
             "SkCircle",
+            "SkLine",
         };
 
         eBDynamicMesh.Factory.CreatePlane(names[0], new Vector3(1, 2, 0));
@@ -29,7 +30,8 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.CreateCapsule(names[6], 20, 20, 20, 0.5f, 2f);
         eBDynamicMesh.Factory.CreateCapsule(names[7], 20, 20, 20, 0.5f, 2f, new(0.5f, 1, 0.1f));
         eBDynamicMesh.Factory.CreateSkinnedCircle(names[8], new() { new() });
-        
+        eBDynamicMesh.Factory.CreateSkinnedLine(names[9], new());
+
         var maxX = 3;
         for (int i = 0; i < names.Length; i++)
         {
@@ -39,7 +41,27 @@ public class SampleScript : MonoBehaviour
                 ? eBDynamicMesh.Factory.GetWithSkinnedObject(names[i], material, 6)
                 : eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
             obj.transform.SetParent(transform);
-            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 3f - 1, 0);
+            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 2f - 1, 0);
+
+            if (i == 9) a(obj);
+        }
+    }
+
+    private static void a(GameObject obj)
+    {
+        for (int i = 0; i < obj.transform.childCount; i++)
+        {
+            var f = (float)i / (obj.transform.childCount - 1);
+            var r = f * 2 * Mathf.PI;
+            //var m = Matrix4x4.identity;
+            var l2 = 0.5f;
+            var pos = new Vector3(Mathf.Cos(r) * l2, Mathf.Sin(r) * l2, 0);
+            //var pos = Vector3.zero;
+
+            var t = obj.transform.GetChild(i);
+            t.SetParent(obj.transform);
+            t.SetLocalPositionAndRotation(pos, Quaternion.Euler(0, 0, f * 360));
+            t.localScale = Vector3.one;
         }
     }
 }
