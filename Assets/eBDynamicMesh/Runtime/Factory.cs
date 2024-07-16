@@ -29,6 +29,11 @@ namespace eBDynamicMesh
 
         private readonly Dictionary<string, Mesh> dic = new();
 
+        public static Work CreateWork()
+        {
+            return new Work();
+        }
+
         public static Mesh Add(string name, Mesh mesh)
         {
             Instance.dic[name] = mesh;
@@ -96,9 +101,9 @@ namespace eBDynamicMesh
                     {
                         var r = (n * 360 / count) * Mathf.Deg2Rad;
                         var m = Matrix4x4.identity;
-                        var l2 = 0.5f;
-                        var pos = new Vector3(Mathf.Cos(r) * l2, Mathf.Sin(r) * l2, 0);
-                        //var pos = Vector3.zero;
+                        //var l2 = 0.5f;
+                        //var pos = new Vector3(Mathf.Cos(r) * l2, Mathf.Sin(r) * l2, 0);
+                        var pos = new Vector3(0, (float)n / (count - 1) - 0.5f, 0);
 
                         var t = new GameObject($"{n}").transform;
                         t.SetParent(obj.transform);

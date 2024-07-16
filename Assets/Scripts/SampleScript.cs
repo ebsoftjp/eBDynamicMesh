@@ -19,6 +19,7 @@ public class SampleScript : MonoBehaviour
             "Capsule2",
             "SkCircle",
             "SkLine",
+            "SkLine2",
         };
 
         eBDynamicMesh.Factory.CreatePlane(names[0], new Vector3(1, 2, 0));
@@ -30,7 +31,17 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.CreateCapsule(names[6], 20, 20, 20, 0.5f, 2f);
         eBDynamicMesh.Factory.CreateCapsule(names[7], 20, 20, 20, 0.5f, 2f, new(0.5f, 1, 0.1f));
         eBDynamicMesh.Factory.CreateSkinnedCircle(names[8], new() { new() });
-        eBDynamicMesh.Factory.CreateSkinnedLine(names[9], new());
+        //eBDynamicMesh.Factory.CreateSkinnedLine(names[9], new());
+
+        var mesh9 = eBDynamicMesh.Factory
+            .CreateWork()
+            .AddBone(6, 1.2f)
+            .AddCorn(0.5f, 1, 0, 0.25f)
+            .AddLine(0.25f, 0.75f)
+            .AddCorn(1, 0, 0.75f, 1)
+            .ToMesh();
+        eBDynamicMesh.Factory.Add(names[9], mesh9);
+        eBDynamicMesh.Factory.Add(names[10], mesh9);
 
         var maxX = 3;
         for (int i = 0; i < names.Length; i++)
