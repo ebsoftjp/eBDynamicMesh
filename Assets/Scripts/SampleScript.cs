@@ -6,6 +6,8 @@ public class SampleScript : MonoBehaviour
     void Start()
     {
         var material = new Material(Resources.Load<Material>("Materials/Default"));
+        material.SetFloat("_Metallic", 1);
+        material.SetFloat("_Metallic/_Smoothness", 0.6f);
 
         var names = new string[]
         {

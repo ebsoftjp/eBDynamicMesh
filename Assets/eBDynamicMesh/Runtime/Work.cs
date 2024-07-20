@@ -65,12 +65,12 @@ namespace eBDynamicMesh
 
         public Work AddLine(float per1, float per2)
         {
-            return Line.Add(this, maxX, maxY, lenX, lenX, lenY, per1, per2);
+            return Line.Add(this, maxX, maxY, lenX / 2, lenX / 2, lenY, per1, per2);
         }
 
         public Work AddCorn(float per1, float per2, float lenX1, float lenX2)
         {
-            return Line.Add(this, maxX, maxY, lenX * lenX1, lenX * lenX2, lenY, per1, per2);
+            return Line.Add(this, maxX, maxY, lenX * lenX1 / 2, lenX * lenX2 / 2, lenY, per1, per2);
         }
 
         public Work AddSphere(float per1, float per2, float sp1, float sp2)

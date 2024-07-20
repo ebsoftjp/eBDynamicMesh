@@ -9,7 +9,7 @@ namespace eBDynamicMesh
         public static Work Add(Work work, int maxX, int maxY, float lenX1, float lenX2, float lenY, float per1, float per2)
         {
             var indexes = new int[maxY + 1][];
-            var dy = (lenX1 - lenX2) / (lenY / (per2 - per1));
+            var dy = (lenX1 - lenX2) / (lenY * (per2 - per1));
 
             // loop
             for (int y = 0; y < maxY + 1; y++)
@@ -26,8 +26,7 @@ namespace eBDynamicMesh
                     indexes[y][x] = work.vertices.Count;
                     var r2 = Mathf.Deg2Rad * x * 360 / maxX;
                     var v1 = new Vector3(Mathf.Cos(r2), 0, Mathf.Sin(r2));
-                    var v2 = new Vector3(v1.x * lenX / 2, vy, v1.z * lenX / 2);
-                    work.vertices.Add(v2);
+                    work.vertices.Add(v1 * lenX + new Vector3(0, vy, 0));
                     v1.y += dy;
                     work.normals.Add(v1.normalized);
                     work.uv.Add(new(x / (float)maxX, per));
