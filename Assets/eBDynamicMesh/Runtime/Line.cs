@@ -9,7 +9,6 @@ namespace eBDynamicMesh
         public static Work Add(Work work, int maxX, int maxY, float lenX1, float lenX2, float lenY, float per1, float per2)
         {
             var indexes = new int[maxY + 1][];
-            var color = Color.white;
             var dy = (lenX1 - lenX2) / (lenY / (per2 - per1));
 
             // loop
@@ -32,30 +31,11 @@ namespace eBDynamicMesh
                     v1.y += dy;
                     work.normals.Add(v1.normalized);
                     work.uv.Add(new(x / (float)maxX, per));
-                    work.colors.Add(color);
+                    work.colors.Add(work.color);
                 }
 
                 // bone
-                if (work.bindposes.Count > 0)
-                {
-                    var fb = per * (work.bindposes.Count - 1);
-                    var nb = (int)fb;
-                    var boneWait = new BoneWeight
-                    {
-                        boneIndex0 = nb % work.bindposes.Count,
-                        boneIndex1 = (nb + 1) % work.bindposes.Count,
-                        //boneIndex2 = 2,
-                        //boneIndex3 = 3,
-                        weight0 = 1f - (fb - nb),
-                        weight1 = fb - nb,
-                        //weight2 = (y % 4) == 2 ? 1 : 0,
-                        //weight3 = (y % 4) == 3 ? 1 : 0,
-                    };
-                    for (int x = 0; x < maxX + 1; x++)
-                    {
-                        work.boneWeights.Add(boneWait);
-                    }
-                }
+                work.AddWeight(work.vertices[^1].y, maxX + 1);
             }
 
             for (int y = 0; y < maxY; y++)

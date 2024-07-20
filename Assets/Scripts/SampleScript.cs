@@ -18,30 +18,79 @@ public class SampleScript : MonoBehaviour
             "Capsule",
             "Capsule2",
             "SkCircle",
+            "SkCircle2",
+            "SkCircle3",
+            "SkCircle4",
             "SkLine",
             "SkLine2",
+            "SkLine3",
         };
 
-        eBDynamicMesh.Factory.CreatePlane(names[0], new Vector3(1, 2, 0));
-        eBDynamicMesh.Factory.CreateSphere(names[1], 10, 10, 0.5f);
-        eBDynamicMesh.Factory.CreateFan(names[2], new() { new() });
-        eBDynamicMesh.Factory.CreateCylinder(names[3], 10, 10, 2, 0.5f);
-        eBDynamicMesh.Factory.CreateLine(names[4], new() { new() });
-        eBDynamicMesh.Factory.CreateSphere(names[5], 100, 100, 0.5f, new(0.5f, 1, 0.1f));
-        eBDynamicMesh.Factory.CreateCapsule(names[6], 20, 20, 20, 0.5f, 2f);
-        eBDynamicMesh.Factory.CreateCapsule(names[7], 20, 20, 20, 0.5f, 2f, new(0.5f, 1, 0.1f));
-        eBDynamicMesh.Factory.CreateSkinnedCircle(names[8], new() { new() });
-        //eBDynamicMesh.Factory.CreateSkinnedLine(names[9], new());
+        var n = 0;
+        eBDynamicMesh.Factory.CreatePlane(names[n++], new Vector3(1, 2, 0));
+        eBDynamicMesh.Factory.CreateSphere(names[n++], 10, 10, 0.5f);
+        eBDynamicMesh.Factory.CreateFan(names[n++], new() { new() });
+        eBDynamicMesh.Factory.CreateCylinder(names[n++], 10, 10, 2, 0.5f);
+        eBDynamicMesh.Factory.CreateLine(names[n++], new() { new() });
+        eBDynamicMesh.Factory.CreateSphere(names[n++], 100, 100, 0.5f, new(0.5f, 1, 0.1f));
+        eBDynamicMesh.Factory.CreateCapsule(names[n++], 20, 20, 20, 0.5f, 2f);
+        eBDynamicMesh.Factory.CreateCapsule(names[n++], 20, 20, 20, 0.5f, 2f, new(0.5f, 1, 0.1f));
+        //eBDynamicMesh.Factory.CreateSkinnedCircle(names[n++], new() { new() });
+        //eBDynamicMesh.Factory.CreateSkinnedLine(names[n++], new());
 
-        var mesh9 = eBDynamicMesh.Factory
+        var ssphere1 = eBDynamicMesh.Factory
+            .CreateWork()
+            .SetScale(1, 1, 0.2f)
+            .AddBone(6, 1.2f)
+            .AddSphere(0, 0.25f, 0, 0.5f)
+            //.AddLine(0.25f, 0.5f)
+            //.AddLine(0.5f, 0.75f)
+            .AddSphere(0.25f, 0.5f, 0.5f, 0.6f)
+            .AddSphere(0.5f, 0.75f, 0.4f, 0.5f)
+            .AddSphere(0.75f, 1, 0.5f, 0.75f)
+            .ToMesh();
+        eBDynamicMesh.Factory.Add(names[n++], ssphere1);
+
+        eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
             .CreateWork()
             .AddBone(6, 1.2f)
-            .AddCorn(0.5f, 1, 0, 0.25f)
+            .AddSphere(0, 1, 0, 1)
+            .ToMesh());
+
+        eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
+            .CreateWork()
+            .AddBone(6, 1.2f)
+            .AddSphere(0.5f, 1, 0, 0.1f)
+            .ToMesh());
+
+        eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
+            .CreateWork()
+            .AddBone(6, 1.2f)
+            .AddSphere(0.5f, 1, 0.1f, 0.2f)
+            .ToMesh());
+
+        var sline1 = eBDynamicMesh.Factory
+            .CreateWork()
+            .AddBone(6, 1.2f)
+            .AddCorn(0, 0.25f, 0.5f, 1)
             .AddLine(0.25f, 0.75f)
-            .AddCorn(1, 0, 0.75f, 1)
+            .SetColor(Color.green)
+            .AddCorn(0.75f, 1, 1, 0)
             .ToMesh();
-        eBDynamicMesh.Factory.Add(names[9], mesh9);
-        eBDynamicMesh.Factory.Add(names[10], mesh9);
+        eBDynamicMesh.Factory.Add(names[n++], sline1);
+        eBDynamicMesh.Factory.Add(names[n++], sline1);
+
+        var sline3 = eBDynamicMesh.Factory
+            .CreateWork()
+            .SetLength(0.1f, 1)
+            .AddBone(6, 1.2f)
+            .SetColor(Color.green)
+            .AddCorn(0, 0.05f, 0, 1)
+            .AddLine(0.05f, 0.7f)
+            .AddCorn(0.75f, 1, 2, 0)
+            .AddCorn(0.7f, 0.75f, 1, 2)
+            .ToMesh();
+        eBDynamicMesh.Factory.Add(names[n++], sline3);
 
         var maxX = 3;
         for (int i = 0; i < names.Length; i++)
@@ -52,9 +101,9 @@ public class SampleScript : MonoBehaviour
                 ? eBDynamicMesh.Factory.GetWithSkinnedObject(names[i], material, 6)
                 : eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
             obj.transform.SetParent(transform);
-            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 2f - 1, 0);
+            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 2f - 2, 0);
 
-            if (i == 9) a(obj);
+            if (i == 12) a(obj);
         }
     }
 
