@@ -69,7 +69,12 @@ namespace eBDynamicMesh
 
         public static GameObject GetWithGameObject(string name, Material material)
         {
-            var obj = new GameObject(name);
+            return GetWithGameObject(Get(name), material);
+        }
+
+        public static GameObject GetWithGameObject(Mesh mesh, Material material)
+        {
+            var obj = new GameObject(mesh.name);
             if (obj.GetComponent<MeshRenderer>() == null)
             {
                 // add mesh renderer
@@ -81,7 +86,7 @@ namespace eBDynamicMesh
             {
                 // add mesh filter
                 var meshFilter = obj.AddComponent<MeshFilter>();
-                meshFilter.mesh = Get(name);
+                meshFilter.mesh = mesh;
             }
 
             return obj;
