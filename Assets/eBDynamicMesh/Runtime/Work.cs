@@ -8,6 +8,7 @@ namespace eBDynamicMesh
     public class Work
     {
         // data
+        public string name = "Undefined";
         public int maxX = 10;
         public int maxY = 10;
         public float lenX = 0.5f;
@@ -40,6 +41,19 @@ namespace eBDynamicMesh
                 bindposes.Add(m);
             }
 
+            return this;
+        }
+
+        public Work SetName(string name)
+        {
+            this.name = name;
+            return this;
+        }
+
+        public Work SetVertexCount(int maxX, int maxY)
+        {
+            this.maxX = maxX;
+            this.maxY = maxY;
             return this;
         }
 
@@ -115,6 +129,7 @@ namespace eBDynamicMesh
         {
             return new()
             {
+                name = name,
                 vertices = vertices.ToArray(),
                 normals = normals.ToArray(),
                 uv = uv.ToArray(),

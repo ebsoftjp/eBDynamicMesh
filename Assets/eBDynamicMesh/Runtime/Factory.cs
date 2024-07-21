@@ -29,9 +29,11 @@ namespace eBDynamicMesh
 
         private readonly Dictionary<string, Mesh> dic = new();
 
-        public static Work CreateWork()
+        public static Work CreateWork(string name = null)
         {
-            return new Work();
+            var res = new Work();
+            if (name != null) res.SetName(name);
+            return res;
         }
 
         public static Mesh Add(string name, Mesh mesh)
@@ -85,25 +87,30 @@ namespace eBDynamicMesh
             return obj;
         }
 
-        public static GameObject GetWithSkinnedObject(string name, Material material, int count)
+        public static GameObject GetWithSkinnedObject(string name, Material material)
         {
-            var obj = new GameObject(name);
+            return GetWithSkinnedObject(Get(name), material);
+        }
+
+        public static GameObject GetWithSkinnedObject(Mesh mesh, Material material)
+        {
+            var obj = new GameObject(mesh.name);
             if (obj.GetComponent<SkinnedMeshRenderer>() == null)
             {
                 // add mesh renderer
                 var meshRenderer = obj.AddComponent<SkinnedMeshRenderer>();
-                meshRenderer.sharedMesh = Get(name);
+                meshRenderer.sharedMesh = mesh;
                 meshRenderer.rootBone = obj.transform;
                 //meshRenderer.bones = new Transform[] { obj.transform };
                 meshRenderer.bones = Enumerable
-                    .Repeat(0, count)
+                    .Repeat(0, mesh.bindposeCount)
                     .Select((_, n) =>
                     {
-                        var r = (n * 360 / count) * Mathf.Deg2Rad;
+                        var r = (n * 360 / mesh.bindposeCount) * Mathf.Deg2Rad;
                         var m = Matrix4x4.identity;
                         //var l2 = 0.5f;
                         //var pos = new Vector3(Mathf.Cos(r) * l2, Mathf.Sin(r) * l2, 0);
-                        var pos = new Vector3(0, (float)n / (count - 1) - 0.5f, 0);
+                        var pos = new Vector3(0, (float)n / (mesh.bindposeCount - 1) - 0.5f, 0);
 
                         var t = new GameObject($"{n}").transform;
                         t.SetParent(obj.transform);

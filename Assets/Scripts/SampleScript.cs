@@ -41,7 +41,7 @@ public class SampleScript : MonoBehaviour
         //eBDynamicMesh.Factory.CreateSkinnedLine(names[n++], new());
 
         var ssphere1 = eBDynamicMesh.Factory
-            .CreateWork()
+            .CreateWork(names[n])
             .SetScale(1, 1, 0.2f)
             .AddBone(6, 1.2f)
             .AddSphere(0, 0.25f, 0, 0.5f)
@@ -54,25 +54,26 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.Add(names[n++], ssphere1);
 
         eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
-            .CreateWork()
+            .CreateWork(names[n])
             .AddBone(6, 1.2f)
             .AddSphere(0, 1, 0, 1)
             .ToMesh());
 
         eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
-            .CreateWork()
+            .CreateWork(names[n])
             .AddBone(6, 1.2f)
             .AddSphere(0.5f, 1, 0, 0.1f)
             .ToMesh());
 
         eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
-            .CreateWork()
+            .CreateWork(names[n])
             .AddBone(6, 1.2f)
             .AddSphere(0.5f, 1, 0.1f, 0.2f)
             .ToMesh());
 
         var sline1 = eBDynamicMesh.Factory
-            .CreateWork()
+            .CreateWork(names[n])
+            .SetVertexCount(24, 48)
             .AddBone(6, 1.2f)
             .AddCorn(0, 0.25f, 0.5f, 1)
             .AddLine(0.25f, 0.75f)
@@ -83,7 +84,7 @@ public class SampleScript : MonoBehaviour
         eBDynamicMesh.Factory.Add(names[n++], sline1);
 
         var sline3 = eBDynamicMesh.Factory
-            .CreateWork()
+            .CreateWork(names[n])
             .SetLength(0.1f, 1)
             .AddBone(6, 1.2f)
             .SetColor(Color.green)
@@ -100,7 +101,7 @@ public class SampleScript : MonoBehaviour
             var x = i % maxX;
             var y = i / maxX;
             var obj = names[i].StartsWith("Sk")
-                ? eBDynamicMesh.Factory.GetWithSkinnedObject(names[i], material, 6)
+                ? eBDynamicMesh.Factory.GetWithSkinnedObject(names[i], material)
                 : eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
             obj.transform.SetParent(transform);
             obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 2f - 2, 0);
