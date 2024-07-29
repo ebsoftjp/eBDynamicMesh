@@ -67,7 +67,9 @@ public class SampleScript : MonoBehaviour
 
         eBDynamicMesh.Factory.Add(names[n++], eBDynamicMesh.Factory
             .CreateWork(names[n])
+            .SetScale(1, 1, 0.2f)
             .AddBone(6, 1.2f)
+            .AddLine(0, 0.5f)
             .AddSphere(0.5f, 1, 0.1f, 0.2f)
             .ToMesh());
 
