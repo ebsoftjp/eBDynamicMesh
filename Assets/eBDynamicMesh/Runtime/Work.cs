@@ -92,6 +92,11 @@ namespace eBDynamicMesh
             return Sphere.Add(this, maxX, maxY, sp1, sp2, per1, per2);
         }
 
+        public Work AddPlane()
+        {
+            return Plane.Add(this, maxX, maxY, lenX);
+        }
+
         public void AddWeight(float vy2, int maxX2)
         {
             if (bindposes.Count > 0)

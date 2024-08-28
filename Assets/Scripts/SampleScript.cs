@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class SampleScript : MonoBehaviour
 {
+    private const int maxX = 4;
+    private const float lenX = 0.7f;
+    private const float lenY = 2f;
+
+    private float time;
+    private Mesh plane2;
+
     void Start()
     {
         var material = new Material(Resources.Load<Material>("Materials/Default"));
@@ -26,6 +33,7 @@ public class SampleScript : MonoBehaviour
             "SkLine",
             "SkLine2",
             "SkLine3",
+            "Plane2",
         };
 
         var n = 0;
@@ -97,7 +105,16 @@ public class SampleScript : MonoBehaviour
             .ToMesh();
         eBDynamicMesh.Factory.Add(names[n++], sline3);
 
-        var maxX = 3;
+        var plane2 = eBDynamicMesh.Factory
+            .CreateWork(names[n])
+            .SetScale(1, 1, 0.5f)
+            .SetVertexCount(3, 2)
+            .SetLength(1, 0)
+            .AddPlane()
+            .ToMesh();
+        eBDynamicMesh.Factory.Add(names[n++], plane2);
+        this.plane2 = plane2;
+
         for (int i = 0; i < names.Length; i++)
         {
             var x = i % maxX;
@@ -106,10 +123,22 @@ public class SampleScript : MonoBehaviour
                 ? eBDynamicMesh.Factory.GetWithSkinnedObject(names[i], material)
                 : eBDynamicMesh.Factory.GetWithGameObject(names[i], material);
             obj.transform.SetParent(transform);
-            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * 1f, y * 2f - 2, 0);
+            obj.transform.localPosition = new((float)(x * 2 - (maxX - 1)) * lenX, y * lenY - 2, 0);
 
             if (i == 12) a(obj);
         }
+    }
+
+    void Update()
+    {
+        time += Time.deltaTime;
+        var r = (time % 1) * 360f * Mathf.Deg2Rad;
+        var vertices = plane2.vertices;
+        vertices[0].y = Mathf.Sin(r) * 0.25f - 0.25f;
+        vertices[^1].y = 0.25f;
+        plane2.vertices = vertices;
+        plane2.RecalculateNormals();
+        //Debug.Log($"plane2.vertices[0].y ({plane2.isReadable}): {plane2.vertices[0].y}");
     }
 
     private static void a(GameObject obj)
