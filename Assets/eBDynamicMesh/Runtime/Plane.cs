@@ -22,7 +22,7 @@ namespace eBDynamicMesh
                     work.vertices.Add(Vector3.Scale(new(p1, 0, p2), sc * len2));
                     work.uv.Add(new(t1, t2));
                     work.normals.Add(Vector3.up);
-                    work.colors.Add(Color.white);
+                    work.colors.Add(work.color);
                 }
             }
 
