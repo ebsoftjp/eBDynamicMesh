@@ -92,9 +92,14 @@ namespace eBDynamicMesh
             return Sphere.Add(this, maxX, maxY, sp1, sp2, per1, per2);
         }
 
+        public Work AddCube(float per1, float per2)
+        {
+            return Cube.Add(this, maxX, maxY, lenX, lenY, per1, per2);
+        }
+
         public Work AddPlane()
         {
-            return Plane.Add(this, maxX, maxY, lenX);
+            return Plane.Add(this, maxX, maxY, lenX, lenY);
         }
 
         public void AddWeight(float vy2, int maxX2)

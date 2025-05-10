@@ -34,6 +34,7 @@ public class SampleScript : MonoBehaviour
             "SkLine2",
             "SkLine3",
             "Plane2",
+            "Cube",
         };
 
         var n = 0;
@@ -114,6 +115,17 @@ public class SampleScript : MonoBehaviour
             .ToMesh();
         eBDynamicMesh.Factory.Add(names[n++], plane2);
         this.plane2 = plane2;
+
+        var cube = eBDynamicMesh.Factory
+            .CreateWork(names[n])
+            .SetScale(1, 1, 0.5f)
+            .SetLength(1, 1)
+            .AddCube(0, 0.4f)
+            .AddLine(0.4f, 0.6f)
+            .SetScale(0.9f, 1, 0.4f)
+            .AddCube(0.6f, 1)
+            .ToMesh();
+        eBDynamicMesh.Factory.Add(names[n++], cube);
 
         for (int i = 0; i < names.Length; i++)
         {
